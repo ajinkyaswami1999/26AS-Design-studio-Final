@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
-import { testimonialsApi, type Testimonial } from '@/lib/supabase';
+import { supabase,testimonialsApi, type Testimonial } from '@/lib/supabase';
 
 
 export default function TestimonialsSection() {
