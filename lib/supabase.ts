@@ -312,12 +312,12 @@ export const adminUsersApi = {
     const { data, error } = await supabase
       .from('admin_users')
       .select('*')
-      .eq('username', username.toLowerCase())
-      .eq('password_hash', password)
+      .ilike('username', username.toLowerCase())
+      .ilike('password_hash', password)
       .single(); // ⛔ Removed active check
 
     if (error || !data) return null;
-    
+
     await supabase
       .from('admin_users')
       .update({ last_login: new Date().toISOString() })
