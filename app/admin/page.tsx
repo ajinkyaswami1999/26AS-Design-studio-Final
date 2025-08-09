@@ -138,21 +138,36 @@ export default function AdminPanel() {
     try {
       const user = await adminUsersApi.authenticate(loginForm.username, loginForm.password);
       if (user) {
-        const userData = {
-          id: user.id,
-          username: user.username,
-          role: user.role,
-          permissions: {
-            projects: user.permissions?.projects ?? false,
-            team: user.permissions?.team ?? false,
-            stats: user.permissions?.stats ?? false,
-            contact: user.permissions?.contact ?? false,
-            social: user.permissions?.social ?? false,
-            users: user.permissions?.users ?? false,
-          }
-        };
+        // var userData = {
+        //   id: user.id,
+        //   username: user.username,
+        //   role: user.role,
+        //   permissions: {
+        //     projects: user.permissions?.projects ?? false,
+        //     team: user.permissions?.team ?? false,
+        //     stats: user.permissions?.stats ?? false,
+        //     contact: user.permissions?.contact ?? false,
+        //     social: user.permissions?.social ?? false,
+        //     users: user.permissions?.users ?? false,
+        //   }
+        // };
+        const userData: User = {
+  id: user.id,
+  username: user.username,
+  role: user.role,
+  permissions: {
+    projects: user.permissions?.projects ?? false,
+    team: user.permissions?.team ?? false,
+    stats: user.permissions?.stats ?? false,
+    contact: user.permissions?.contact ?? false,
+    social: user.permissions?.social ?? false,
+    users: user.permissions?.users ?? false,
+  }
+};
+
 
         localStorage.setItem('adminUser', JSON.stringify(userData));
+       
         setCurrentUser(userData);
         setIsAuthenticated(true);
       } else {
