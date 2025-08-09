@@ -25,8 +25,9 @@ export default function SocialMedia() {
       setSocialLinks({
         instagram: 'https://instagram.com/26asdesign',
         facebook: 'https://facebook.com/26asdesign',
-        linkedin: 'https://linkedin.com/company/26asdesign',
-        twitter: 'https://twitter.com/26asdesign'
+        twitter: 'https://twitter.com/26asdesign',
+        youtube: 'https://youtube.com/@26asdesign',
+        behance: 'https://behance.net/26asdesign' 
       });
       return;
     }
