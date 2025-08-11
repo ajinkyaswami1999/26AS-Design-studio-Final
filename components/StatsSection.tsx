@@ -7,10 +7,10 @@ import { siteSettingsApi } from '@/lib/supabase';
 export default function StatsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [stats, setStats] = useState([
-    { number: 150, label: 'Projects Completed', suffix: '+' },
-    { number: 12, label: 'Years Experience', suffix: '' },
-    { number: 200, label: 'Happy Clients', suffix: '+' },
-    { number: 95, label: 'Success Rate', suffix: '%' }
+    { number: 15, label: 'Projects Completed', suffix: '+' },
+    { number: 2, label: 'Years Experience', suffix: '' },
+    { number: 20, label: 'Happy Clients', suffix: '+' },
+    { number: 92, label: 'Success Rate', suffix: '%' }
   ]);
   const [animatedStats, setAnimatedStats] = useState(stats.map(() => 0));
   const sectionRef = useRef<HTMLDivElement>(null);
