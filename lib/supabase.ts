@@ -287,14 +287,20 @@ export const siteSettingsApi = {
   async set(key: string, value: any): Promise<void> {
     const { error } = await supabase
       .from('site_settings')
-      .upsert({
-        setting_key: key,
-        setting_value: value
-      });
+      .upsert(
+        {
+          setting_key: key,
+          setting_value: value
+        },
+        {
+          onConflict: 'setting_key' // ✅ This ensures update if the key exists
+        }
+      );
     
     if (error) throw error;
   }
 };
+
 
 export const adminUsersApi = {
   async getAll(): Promise<AdminUser[]> {
