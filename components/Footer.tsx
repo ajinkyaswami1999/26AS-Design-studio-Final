@@ -77,8 +77,8 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li>Architectural Design</li>
               <li>Interior Design</li>
-              <li>Urban Planning</li>
-              <li>Construction Management</li>
+              <li>Landscape Design</li>
+              <li>3D Visualization</li>
             </ul>
           </div>
         </div>
