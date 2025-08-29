@@ -61,9 +61,9 @@ export default function Contact() {
                     <div>
                       <h3 className="font-medium mb-1 text-white">Office Address</h3>
                       <p className="text-gray-300">
-                        123 Design Street<br />
-                        Suite 456<br />
-                        New York, NY 10001
+                        E-35 Karni Nagar, Lalgarh,<br />
+                        Bikaner, Rajasthan,<br />
+                        INDIA, 334001
                       </p>
                     </div>
                   </div>
@@ -72,7 +72,7 @@ export default function Contact() {
                     <Phone className="w-6 h-6 text-yellow-400 mr-4 mt-1" />
                     <div>
                       <h3 className="font-medium mb-1 text-white">Phone</h3>
-                      <p className="text-gray-300">+1 (555) 123-4567</p>
+                      <p className="text-gray-300">+91 6377828824</p>
                     </div>
                   </div>
                   
@@ -80,7 +80,7 @@ export default function Contact() {
                     <Mail className="w-6 h-6 text-yellow-400 mr-4 mt-1" />
                     <div>
                       <h3 className="font-medium mb-1 text-white">Email</h3>
-                      <p className="text-gray-300">info@26asdesign.com</p>
+                      <p className="text-gray-300">adityaswami1999@gmail.com</p>
                     </div>
                   </div>
                   
@@ -152,6 +152,7 @@ export default function Contact() {
                       <option value="commercial">Commercial</option>
                       <option value="renovation">Renovation</option>
                       <option value="consultation">Consultation</option>
+                      <option value="Landscape">Landscape</option>
                     </select>
                   </div>
                   
