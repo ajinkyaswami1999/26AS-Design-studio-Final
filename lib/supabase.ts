@@ -653,17 +653,19 @@ export const adminUsersApi = {
     return data;
   },
 
-  async create(user: Omit<AdminUser, 'id' | 'created_at' | 'updated_at' | 'last_login'> & { password: string }): Promise<AdminUser> {
-    // directly store plain password
-    const { data, error } = await supabase
-      .from('admin_users')
-      .insert({ ...user, password_hash: user.password })
-      .select()
-      .single();
+    async create(
+        user: Omit<AdminUser, 'id' | 'created_at' | 'updated_at' | 'last_login'>
+    ): Promise<AdminUser> {
+        const { data, error } = await supabase
+            .from('admin_users')
+            .insert(user)
+            .select()
+            .single();
 
-    if (error) throw error;
-    return data;
-  },
+        if (error) throw error;
+        return data;
+    },
+
 
   async update(id: string, user: Partial<AdminUser>): Promise<AdminUser> {
     const { data, error } = await supabase
