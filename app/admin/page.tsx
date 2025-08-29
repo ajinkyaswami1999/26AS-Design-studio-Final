@@ -26,6 +26,7 @@ import {
   siteSettingsApi,
   adminUsersApi,
   projectImagesApi,
+  uploadImage, uploadImages,
   type Project,
   type TeamMember,
   type Testimonial,
@@ -389,8 +390,8 @@ export default function AdminPanel() {
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-2 transition-colors ${activeTab === item.id
-                  ? 'bg-yellow-400 text-black'
-                  : 'text-gray-300 hover:bg-gray-800'
+                ? 'bg-yellow-400 text-black'
+                : 'text-gray-300 hover:bg-gray-800'
                 }`}
             >
               <item.icon className="w-5 h-5" />
@@ -778,8 +779,8 @@ export default function AdminPanel() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'super_admin'
-                              ? 'bg-yellow-400 text-black'
-                              : 'bg-gray-700 text-gray-300'
+                            ? 'bg-yellow-400 text-black'
+                            : 'bg-gray-700 text-gray-300'
                             }`}>
                             {user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
                           </span>
