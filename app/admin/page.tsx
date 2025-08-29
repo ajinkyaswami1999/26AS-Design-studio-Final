@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  FolderOpen, 
-  Users, 
-  BarChart3, 
-  Phone, 
-  Share2, 
+import {
+  LayoutDashboard,
+  FolderOpen,
+  Users,
+  BarChart3,
+  Phone,
+  Share2,
   UserCog,
   LogOut,
   Plus,
@@ -19,11 +19,11 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
-import { 
-  projectsApi, 
-  teamMembersApi, 
-  testimonialsApi, 
-  siteSettingsApi, 
+import {
+  projectsApi,
+  teamMembersApi,
+  testimonialsApi,
+  siteSettingsApi,
   adminUsersApi,
   projectImagesApi,
   type Project,
@@ -156,22 +156,22 @@ export default function AdminPanel() {
         //   }
         // };
         const userData: User = {
-  id: user.id,
-  username: user.username,
-  role: user.role,
-  permissions: {
-    projects: user.permissions?.projects ?? false,
-    team: user.permissions?.team ?? false,
-    stats: user.permissions?.stats ?? false,
-    contact: user.permissions?.contact ?? false,
-    social: user.permissions?.social ?? false,
-    users: user.permissions?.users ?? false,
-  }
-};
+          id: user.id,
+          username: user.username,
+          role: user.role,
+          permissions: {
+            projects: user.permissions?.projects ?? false,
+            team: user.permissions?.team ?? false,
+            stats: user.permissions?.stats ?? false,
+            contact: user.permissions?.contact ?? false,
+            social: user.permissions?.social ?? false,
+            users: user.permissions?.users ?? false,
+          }
+        };
 
 
         localStorage.setItem('adminUser', JSON.stringify(userData));
-       
+
         setCurrentUser(userData);
         setIsAuthenticated(true);
       } else {
@@ -319,7 +319,7 @@ export default function AdminPanel() {
             <h1 className="text-3xl font-light text-yellow-400 tracking-widest">26AS</h1>
             <p className="text-gray-300 mt-2">Admin Panel</p>
           </div>
-          
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -333,7 +333,7 @@ export default function AdminPanel() {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Password
@@ -346,11 +346,11 @@ export default function AdminPanel() {
                 required
               />
             </div>
-            
+
             {loginError && (
               <div className="text-red-400 text-sm text-center">{loginError}</div>
             )}
-            
+
             <button
               type="submit"
               className="w-full bg-yellow-400 text-black py-3 rounded-lg font-medium hover:bg-yellow-500 transition-colors"
@@ -382,23 +382,22 @@ export default function AdminPanel() {
           <p className="text-gray-400 text-sm mt-1">Admin Panel</p>
           <p className="text-gray-500 text-xs mt-2">Welcome, {currentUser?.username}</p>
         </div>
-        
+
         <nav className="p-4">
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-2 transition-colors ${
-                activeTab === item.id
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-2 transition-colors ${activeTab === item.id
                   ? 'bg-yellow-400 text-black'
                   : 'text-gray-300 hover:bg-gray-800'
-              }`}
+                }`}
             >
               <item.icon className="w-5 h-5" />
               <span>{item.label}</span>
             </button>
           ))}
-          
+
           <button
             onClick={handleLogout}
             className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg mt-8 text-red-400 hover:bg-red-400/10 transition-colors"
@@ -433,7 +432,7 @@ export default function AdminPanel() {
                   <p className="text-3xl font-light text-yellow-400">{adminUsers.length}</p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-900 p-6 rounded-lg border border-yellow-400/20">
                   <h3 className="text-lg font-medium mb-4">Recent Projects</h3>
@@ -449,7 +448,7 @@ export default function AdminPanel() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="bg-gray-900 p-6 rounded-lg border border-yellow-400/20">
                   <h3 className="text-lg font-medium mb-4">System Stats</h3>
                   <div className="space-y-3">
@@ -487,7 +486,7 @@ export default function AdminPanel() {
                   <span>Add Project</span>
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map((project) => (
                   <div key={project.id} className="bg-gray-900 rounded-lg overflow-hidden border border-yellow-400/20">
@@ -530,7 +529,7 @@ export default function AdminPanel() {
                   <span>Add Member</span>
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {teamMembers.map((member) => (
                   <div key={member.id} className="bg-gray-900 rounded-lg overflow-hidden border border-yellow-400/20">
@@ -756,7 +755,7 @@ export default function AdminPanel() {
                   <span>Add User</span>
                 </button>
               </div>
-              
+
               <div className="bg-gray-900 rounded-lg border border-yellow-400/20 overflow-hidden">
                 <table className="w-full">
                   <thead className="bg-gray-800">
@@ -778,11 +777,10 @@ export default function AdminPanel() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            user.role === 'super_admin' 
-                              ? 'bg-yellow-400 text-black' 
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'super_admin'
+                              ? 'bg-yellow-400 text-black'
                               : 'bg-gray-700 text-gray-300'
-                          }`}>
+                            }`}>
                             {user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
                           </span>
                         </td>
@@ -832,7 +830,7 @@ export default function AdminPanel() {
           <div className="bg-gray-900 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-yellow-400/20">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-medium text-yellow-400">
-                {editingProject.id ? 'Edit Project' : 'Add Project'}
+                {editingProject.id ? "Edit Project" : "Add Project"}
               </h3>
               <button
                 onClick={() => setEditingProject(null)}
@@ -841,41 +839,86 @@ export default function AdminPanel() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.currentTarget);
-              const project = {
-                title: formData.get('title') as string,
-                category: formData.get('category') as string,
-                location: formData.get('location') as string,
-                year: formData.get('year') as string,
-                description: formData.get('description') as string,
-                details: formData.get('details') as string,
-                client: formData.get('client') as string,
-                area: formData.get('area') as string,
-                duration: formData.get('duration') as string,
-                featured: formData.get('featured') === 'on',
-                main_image: formData.get('main_image') as string,
-              };
-              saveProject(project);
-            }} className="space-y-4">
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+
+                let mainImageUrl = editingProject?.main_image || "";
+
+                // ✅ Upload main file if chosen
+                if (mainFile) {
+                  mainImageUrl = await uploadImage(mainFile);
+                }
+
+                const project = {
+                  title: formData.get("title") as string,
+                  category: formData.get("category") as string,
+                  location: formData.get("location") as string,
+                  year: formData.get("year") as string,
+                  description: formData.get("description") as string,
+                  details: formData.get("details") as string,
+                  client: formData.get("client") as string,
+                  area: formData.get("area") as string,
+                  duration: formData.get("duration") as string,
+                  featured: formData.get("featured") === "on",
+                  main_image: mainImageUrl,
+                };
+
+                let savedProject;
+                if (editingProject?.id) {
+                  savedProject = await projectsApi.update(
+                    editingProject.id,
+                    project
+                  );
+                } else {
+                  savedProject = await projectsApi.create(project);
+                }
+
+                // ✅ Upload extra images if any
+                if (extraFiles.length > 0) {
+                  const urls = await uploadImages(extraFiles);
+                  for (let i = 0; i < urls.length; i++) {
+                    await projectImagesApi.create({
+                      project_id: savedProject.id,
+                      image_url: urls[i],
+                      alt_text: `Image ${i + 1}`,
+                      sort_order: i,
+                    });
+                  }
+                }
+
+                // ✅ Reset form + close modal
+                setEditingProject(null);
+                setMainFile(null);
+                setExtraFiles([]);
+                setPreviewMain("");
+                setPreviewExtras([]);
+                loadData(); // refresh project list
+              }}
+              className="space-y-4"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Title
+                  </label>
                   <input
                     name="title"
                     type="text"
-                    defaultValue={editingProject.title || ''}
+                    defaultValue={editingProject.title || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Category
+                  </label>
                   <select
                     name="category"
-                    defaultValue={editingProject.category || ''}
+                    defaultValue={editingProject.category || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   >
@@ -887,51 +930,61 @@ export default function AdminPanel() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Location
+                  </label>
                   <input
                     name="location"
                     type="text"
-                    defaultValue={editingProject.location || ''}
+                    defaultValue={editingProject.location || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Year</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Year
+                  </label>
                   <input
                     name="year"
                     type="text"
-                    defaultValue={editingProject.year || ''}
+                    defaultValue={editingProject.year || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Client</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Client
+                  </label>
                   <input
                     name="client"
                     type="text"
-                    defaultValue={editingProject.client || ''}
+                    defaultValue={editingProject.client || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Area</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Area
+                  </label>
                   <input
                     name="area"
                     type="text"
-                    defaultValue={editingProject.area || ''}
+                    defaultValue={editingProject.area || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Duration</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Duration
+                  </label>
                   <input
                     name="duration"
                     type="text"
-                    defaultValue={editingProject.duration || ''}
+                    defaultValue={editingProject.duration || ""}
                     required
                     className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                   />
@@ -943,12 +996,17 @@ export default function AdminPanel() {
                     defaultChecked={editingProject.featured || false}
                     className="w-4 h-4 text-yellow-400 bg-black border-gray-600 rounded focus:ring-yellow-400"
                   />
-                  <label className="ml-2 text-sm text-gray-300">Featured Project</label>
+                  <label className="ml-2 text-sm text-gray-300">
+                    Featured Project
+                  </label>
                 </div>
               </div>
-              
+
+              {/* ✅ Main Image Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Main Image</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Main Image
+                </label>
                 <input
                   type="file"
                   accept="image/*"
@@ -956,27 +1014,38 @@ export default function AdminPanel() {
                     if (e.target.files?.[0]) {
                       setMainFile(e.target.files[0]);
                       setPreviewMain(URL.createObjectURL(e.target.files[0]));
-                     }
-                    }}
+                    }
+                  }}
                   className="w-full text-gray-300"
+                />
+                {previewMain && (
+                  <img
+                    src={previewMain}
+                    alt="preview"
+                    className="mt-2 w-32 rounded"
                   />
-                {previewMain && <img src={previewMain} alt="preview" className="mt-2 w-32 rounded" />}
+                )}
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Description
+                </label>
                 <textarea
                   name="description"
                   rows={3}
-                  defaultValue={editingProject.description || ''}
+                  defaultValue={editingProject.description || ""}
                   required
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
                 />
               </div>
 
+              {/* ✅ Extra Images Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Extra Images</label>
-                  <input
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Extra Images
+                </label>
+                <input
                   type="file"
                   multiple
                   accept="image/*"
@@ -984,29 +1053,36 @@ export default function AdminPanel() {
                     if (e.target.files) {
                       const files = Array.from(e.target.files);
                       setExtraFiles(files);
-                      setPreviewExtras(files.map(f => URL.createObjectURL(f)));
-                            }
-                          }}
+                      setPreviewExtras(files.map((f) => URL.createObjectURL(f)));
+                    }
+                  }}
                   className="w-full text-gray-300"
                 />
                 <div className="flex flex-wrap gap-2 mt-2">
                   {previewExtras.map((src, i) => (
-                    <img key={i} src={src} alt={`extra-${i}`} className="w-20 h-20 object-cover rounded" />
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`extra-${i}`}
+                      className="w-20 h-20 object-cover rounded"
+                    />
                   ))}
                 </div>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Details</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Details
+                </label>
                 <textarea
                   name="details"
                   rows={5}
-                  defaultValue={editingProject.details || ''}
+                  defaultValue={editingProject.details || ""}
                   required
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
                 />
               </div>
-              
+
               <div className="flex space-x-4 pt-4">
                 <button
                   type="submit"
@@ -1028,6 +1104,7 @@ export default function AdminPanel() {
         </div>
       )}
 
+
       {/* Team Member Form Modal */}
       {editingTeamMember && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -1043,7 +1120,7 @@ export default function AdminPanel() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <form onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
@@ -1099,7 +1176,7 @@ export default function AdminPanel() {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Image URL</label>
                 <input
@@ -1110,7 +1187,7 @@ export default function AdminPanel() {
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn URL</label>
                 <input
@@ -1120,7 +1197,7 @@ export default function AdminPanel() {
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Bio</label>
                 <textarea
@@ -1130,7 +1207,7 @@ export default function AdminPanel() {
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
                 />
               </div>
-              
+
               <div className="flex items-center">
                 <input
                   name="active"
@@ -1140,7 +1217,7 @@ export default function AdminPanel() {
                 />
                 <label className="ml-2 text-sm text-gray-300">Active</label>
               </div>
-              
+
               <div className="flex space-x-4 pt-4">
                 <button
                   type="submit"
@@ -1180,7 +1257,7 @@ export default function AdminPanel() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <form onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
@@ -1192,7 +1269,7 @@ export default function AdminPanel() {
                 social: formData.get('social') === 'on',
                 users: formData.get('users') === 'on',
               };
-              
+
               const user = {
                 username: formData.get('username') as string,
                 password_hash: formData.get('password') as string,
@@ -1212,7 +1289,7 @@ export default function AdminPanel() {
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
                 <input
@@ -1223,7 +1300,7 @@ export default function AdminPanel() {
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Role</label>
                 <select
@@ -1236,7 +1313,7 @@ export default function AdminPanel() {
                   <option value="super_admin">Super Admin</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-3">Permissions</label>
                 <div className="grid grid-cols-2 gap-3">
@@ -1253,7 +1330,7 @@ export default function AdminPanel() {
                   ))}
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <input
                   name="active"
@@ -1263,7 +1340,7 @@ export default function AdminPanel() {
                 />
                 <label className="ml-2 text-sm text-gray-300">Active</label>
               </div>
-              
+
               <div className="flex space-x-4 pt-4">
                 <button
                   type="submit"
