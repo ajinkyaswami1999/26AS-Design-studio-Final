@@ -698,3 +698,33 @@ export const storageApi = {
     if (error) throw error;
   }
 };
+
+/* -----------------------------
+   Project Image Upload Helpers
+------------------------------ */
+export const uploadImage = async (file: File): Promise<string> => {
+  const ext = file.name.split(".").pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const filePath = `projects/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("project-images") // bucket name
+    .upload(filePath, file);
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from("project-images")
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+};
+
+export const uploadImages = async (files: File[]): Promise<string[]> => {
+  const urls: string[] = [];
+  for (const file of files) {
+    const url = await uploadImage(file);
+    urls.push(url);
+  }
+  return urls;
+};
