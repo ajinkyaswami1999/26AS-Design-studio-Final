@@ -136,20 +136,34 @@ export const projectsApi = {
   },
 
   async create(project: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {
-    if (!project.title || !project.category || !project.main_image) {
-      throw new Error('Missing required fields: title, category, or main_image.');
+    // ✅ Validate required fields
+    const requiredFields = ['title', 'category', 'location', 'year', 'description', 'details', 'client', 'area', 'duration', 'main_image', 'featured'];
+    const missingFields = requiredFields.filter(field => (project as any)[field] === undefined || (project as any)[field] === null);
+    if (missingFields.length) {
+      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
     }
+
     try {
+      // ✅ Log payload before sending to Supabase
+      console.log("Creating project with payload:", project);
+
+      // ✅ Insert project
       const { data, error } = await supabase
         .from('projects')
         .insert(project)
         .select()
         .single();
-      if (error) throw error;
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        throw error;
+      }
+
+      console.log("Project created successfully:", data);
       return data;
     } catch (err: any) {
-      console.error('Failed to create project:', err);
-      throw new Error(err.message);
+      console.error("Failed to create project:", err);
+      throw new Error(err.message || "Unknown error occurred while creating project");
     }
   },
 
