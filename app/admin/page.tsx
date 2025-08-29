@@ -52,6 +52,10 @@ export default function AdminPanel() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
+  const [mainFile, setMainFile] = useState<File | null>(null);
+  const [extraFiles, setExtraFiles] = useState<File[]>([]);
+  const [previewMain, setPreviewMain] = useState("");
+  const [previewExtras, setPreviewExtras] = useState<string[]>([]);
 
   // Login state
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
@@ -944,14 +948,19 @@ export default function AdminPanel() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Main Image URL</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Main Image</label>
                 <input
-                  name="main_image"
-                  type="url"
-                  defaultValue={editingProject.main_image || ''}
-                  required
-                  className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
-                />
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files?.[0]) {
+                      setMainFile(e.target.files[0]);
+                      setPreviewMain(URL.createObjectURL(e.target.files[0]));
+                     }
+                    }}
+                  className="w-full text-gray-300"
+                  />
+                {previewMain && <img src={previewMain} alt="preview" className="mt-2 w-32 rounded" />}
               </div>
               
               <div>
@@ -963,6 +972,28 @@ export default function AdminPanel() {
                   required
                   className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Extra Images</label>
+                  <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      const files = Array.from(e.target.files);
+                      setExtraFiles(files);
+                      setPreviewExtras(files.map(f => URL.createObjectURL(f)));
+                            }
+                          }}
+                  className="w-full text-gray-300"
+                />
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {previewExtras.map((src, i) => (
+                    <img key={i} src={src} alt={`extra-${i}`} className="w-20 h-20 object-cover rounded" />
+                  ))}
+                </div>
               </div>
               
               <div>
