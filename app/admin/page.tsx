@@ -844,62 +844,65 @@ export default function AdminPanel() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-                const formData = new FormData(e.currentTarget);
+                try {
+                  const formData = new FormData(e.currentTarget);
 
-                let mainImageUrl = editingProject?.main_image || "";
+                  let mainImageUrl = editingProject?.main_image || "";
 
-                // ✅ Upload main file if chosen
-                if (mainFile) {
-                  mainImageUrl = await uploadImage(mainFile);
-                }
-
-                const project = {
-                  title: formData.get("title") as string,
-                  category: formData.get("category") as string,
-                  location: formData.get("location") as string,
-                  year: formData.get("year") as string,
-                  description: formData.get("description") as string,
-                  details: formData.get("details") as string,
-                  client: formData.get("client") as string,
-                  area: formData.get("area") as string,
-                  duration: formData.get("duration") as string,
-                  featured: formData.get("featured") === "on",
-                  main_image: mainImageUrl,
-                };
-
-                let savedProject;
-                if (editingProject?.id) {
-                  savedProject = await projectsApi.update(
-                    editingProject.id,
-                    project
-                  );
-                } else {
-                  savedProject = await projectsApi.create(project);
-                }
-
-                // ✅ Upload extra images if any
-                if (extraFiles.length > 0) {
-                  const urls = await uploadImages(extraFiles);
-                  for (let i = 0; i < urls.length; i++) {
-                    await projectImagesApi.create({
-                      project_id: savedProject.id,
-                      image_url: urls[i],
-                      alt_text: `Image ${i + 1}`,
-                      sort_order: i,
-                    });
+                  // ✅ Upload new main image if selected
+                  if (mainFile) {
+                    mainImageUrl = await uploadImage(mainFile);
                   }
-                }
 
-                // ✅ Reset form + close modal
-                setEditingProject(null);
-                setMainFile(null);
-                setExtraFiles([]);
-                setPreviewMain("");
-                setPreviewExtras([]);
-                loadData(); // refresh project list
+                  const project = {
+                    title: formData.get("title") as string,
+                    category: formData.get("category") as string,
+                    location: formData.get("location") as string,
+                    year: formData.get("year") as string,
+                    description: formData.get("description") as string,
+                    details: formData.get("details") as string,
+                    client: formData.get("client") as string,
+                    area: formData.get("area") as string,
+                    duration: formData.get("duration") as string,
+                    featured: formData.get("featured") === "on",
+                    main_image: mainImageUrl,
+                  };
+
+                  let savedProject;
+                  if (editingProject?.id) {
+                    savedProject = await projectsApi.update(editingProject.id, project);
+                  } else {
+                    savedProject = await projectsApi.create(project);
+                  }
+
+                  // ✅ Upload extra images if provided
+                  if (extraFiles.length > 0) {
+                    const urls = await uploadImages(extraFiles);
+                    for (let i = 0; i < urls.length; i++) {
+                      await projectImagesApi.create({
+                        project_id: savedProject.id,
+                        image_url: urls[i],
+                        alt_text: `Image ${i + 1}`,
+                        sort_order: i,
+                      });
+                    }
+                  }
+
+                  // ✅ Reset form + close modal
+                  setEditingProject(null);
+                  setMainFile(null);
+                  setExtraFiles([]);
+                  setPreviewMain("");
+                  setPreviewExtras([]);
+                  loadData();
+                } catch (err) {
+                  console.error("❌ Failed to save project:", err);
+                  alert("Failed to save project. Please try again.");
+                }
               }}
               className="space-y-4"
             >
+              {/* ------------------- Inputs ------------------- */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -908,20 +911,21 @@ export default function AdminPanel() {
                   <input
                     name="title"
                     type="text"
-                    defaultValue={editingProject.title || ""}
+                    defaultValue={editingProject?.title || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Category
                   </label>
                   <select
                     name="category"
-                    defaultValue={editingProject.category || ""}
+                    defaultValue={editingProject?.category || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   >
                     <option value="">Select Category</option>
                     <option value="Residential">Residential</option>
@@ -930,6 +934,7 @@ export default function AdminPanel() {
                     <option value="Renovation">Renovation</option>
                   </select>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Location
@@ -937,11 +942,12 @@ export default function AdminPanel() {
                   <input
                     name="location"
                     type="text"
-                    defaultValue={editingProject.location || ""}
+                    defaultValue={editingProject?.location || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Year
@@ -949,11 +955,12 @@ export default function AdminPanel() {
                   <input
                     name="year"
                     type="text"
-                    defaultValue={editingProject.year || ""}
+                    defaultValue={editingProject?.year || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Client
@@ -961,11 +968,12 @@ export default function AdminPanel() {
                   <input
                     name="client"
                     type="text"
-                    defaultValue={editingProject.client || ""}
+                    defaultValue={editingProject?.client || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Area
@@ -973,11 +981,12 @@ export default function AdminPanel() {
                   <input
                     name="area"
                     type="text"
-                    defaultValue={editingProject.area || ""}
+                    defaultValue={editingProject?.area || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Duration
@@ -985,16 +994,17 @@ export default function AdminPanel() {
                   <input
                     name="duration"
                     type="text"
-                    defaultValue={editingProject.duration || ""}
+                    defaultValue={editingProject?.duration || ""}
                     required
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white"
+                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white"
                   />
                 </div>
+
                 <div className="flex items-center">
                   <input
                     name="featured"
                     type="checkbox"
-                    defaultChecked={editingProject.featured || false}
+                    defaultChecked={editingProject?.featured || false}
                     className="w-4 h-4 text-yellow-400 bg-black border-gray-600 rounded focus:ring-yellow-400"
                   />
                   <label className="ml-2 text-sm text-gray-300">
@@ -1003,7 +1013,7 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              {/* ✅ Main Image Upload */}
+              {/* ------------------- Main Image ------------------- */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Main Image
@@ -1019,15 +1029,16 @@ export default function AdminPanel() {
                   }}
                   className="w-full text-gray-300"
                 />
-                {previewMain && (
+                {(previewMain || editingProject?.main_image) && (
                   <img
-                    src={previewMain}
+                    src={previewMain || editingProject?.main_image}
                     alt="preview"
                     className="mt-2 w-32 rounded"
                   />
                 )}
               </div>
 
+              {/* ------------------- Description ------------------- */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Description
@@ -1035,13 +1046,13 @@ export default function AdminPanel() {
                 <textarea
                   name="description"
                   rows={3}
-                  defaultValue={editingProject.description || ""}
+                  defaultValue={editingProject?.description || ""}
                   required
-                  className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
+                  className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white resize-none"
                 />
               </div>
 
-              {/* ✅ Extra Images Upload */}
+              {/* ------------------- Extra Images ------------------- */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Extra Images
@@ -1071,6 +1082,7 @@ export default function AdminPanel() {
                 </div>
               </div>
 
+              {/* ------------------- Details ------------------- */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Details
@@ -1078,12 +1090,13 @@ export default function AdminPanel() {
                 <textarea
                   name="details"
                   rows={5}
-                  defaultValue={editingProject.details || ""}
+                  defaultValue={editingProject?.details || ""}
                   required
-                  className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-white resize-none"
+                  className="w-full px-4 py-3 bg-black border border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-400 text-white resize-none"
                 />
               </div>
 
+              {/* ------------------- Buttons ------------------- */}
               <div className="flex space-x-4 pt-4">
                 <button
                   type="submit"
