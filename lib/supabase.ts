@@ -366,7 +366,6 @@
 // };
 
 import { createClient } from '@supabase/supabase-js';
-import bcrypt from 'bcryptjs';
 
 // ✅ Always use env variables in production
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
